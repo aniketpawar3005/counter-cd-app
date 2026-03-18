@@ -5,8 +5,9 @@ on:
     branches:
       - main
 
+# THIS IS THE PART YOU ARE LIKELY MISSING
 permissions:
-  contents: write # Crucial: Allows the bot to create the gh-pages branch
+  contents: write
 
 jobs:
   deploy:
@@ -27,6 +28,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          npm run deploy
+          # We add the token directly to the command so it can authenticate
+          npm run deploy -- -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}when 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
